@@ -35,13 +35,13 @@ import java.util.List;
 public class PostActivity extends AppCompatActivity {
 
     public static final String TAG = "PostActivity";
-    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 22;
+    public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     private EditText etDescription;
     private Button bCaptureImage;
     private ImageView ivPostImage;
     private Button bPost;
     private File photoFile;
-    private String photoFileName;
+    private String photoFileName = "photo.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class PostActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
 
-                //TODO: RESIZE Bitmap (only if necessry for memory issues)
+                //TODO: RESIZE Bitmap (only if necessary for memory issues)
 
                 //Load taken image into preview
                 ImageView ivPreview = (ImageView) findViewById(R.id.ivPostImage);
@@ -118,13 +118,13 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    private File getPhotoFileUri(String photoFileName) {
+    private File getPhotoFileUri(String fileName) {
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.e(TAG, "failed to create photo directory");
         }
-        File file = new File(mediaStorageDir.getPath() + File.separator + photoFileName);
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
         return file;
     }
 
