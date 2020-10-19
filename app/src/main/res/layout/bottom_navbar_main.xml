@@ -6,4 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="56dp"
     android:layout_gravity="start"
+    app:labelVisibilityMode="unlabeled"
+    app:itemIconTint="@color/colorPrimary"
     app:menu="@menu/navigation_items" />

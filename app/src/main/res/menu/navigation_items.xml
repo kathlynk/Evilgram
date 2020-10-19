@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_home"
-        android:icon="" />
+        android:title="home"
+        android:enabled="true"
+        android:icon="@drawable/nav_home"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_post"
-        android:icon="" />
+        android:title="post"
+        android:icon="@drawable/nav_post"
+        android:enabled="true"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_settings"
-        android:icon="" />
+        android:title="settings"
+        android:icon="@drawable/nav_settings"
+        android:enabled="true"
+        app:showAsAction="ifRoom"/>
 </menu>

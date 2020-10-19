@@ -1,15 +1,18 @@
 package com.lenlobo.evilgram.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lenlobo.evilgram.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -48,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(username, password);
             }
         });
+
     }
 
     private void loginUser(String username, String password) {
@@ -67,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void launchMainActivity() {
-        Intent i = new Intent(this, PostActivity.class);
+        Intent i = new Intent(this, FeedActivity.class);
         startActivity(i);
         finish();
     }
