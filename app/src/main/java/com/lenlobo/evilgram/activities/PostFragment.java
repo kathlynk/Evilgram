@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,8 +15,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,7 +37,7 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
-public class PostActivity extends AppCompatActivity {
+public class PostFragment extends Fragment {
 
     public static final String TAG = "PostActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
@@ -46,17 +49,21 @@ public class PostActivity extends AppCompatActivity {
     private String photoFileName = "photo.jpg";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post);
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_post, container, false);
+    }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        etDescription = findViewById(R.id.etDescription);
-        bCaptureImage = findViewById(R.id.bCaptureImage);
-        ivPostImage = findViewById(R.id.ivPostImage);
-        bPost = findViewById(R.id.bPost);
+
+        etDescription = view.findViewById(R.id.etDescription);
+        bCaptureImage = view.findViewById(R.id.bCaptureImage);
+        ivPostImage = view.findViewById(R.id.ivPostImage);
+        bPost = view.findViewById(R.id.bPost);
+
 
         //click listener for take photo button
         bCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -73,35 +80,15 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String description = etDescription.getText().toString();
                 if (description.isEmpty()) {
-                    Toast.makeText(PostActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
+
                     return;
                 }
                 if (photoFile == null || ivPostImage.getDrawable() == null) {
-                    Toast.makeText(PostActivity.this, "Must take photo.", Toast.LENGTH_SHORT).show();
+
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
-            }
-        });
-
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_home:
-                        Intent i = new Intent(PostActivity.this, FeedActivity.class);
-                        startActivity(i);
-                        return true;
-                    case R.id.action_post:
-                        return true;
-                    case R.id.action_settings:
-                        // do something here
-                        return true;
-                    default: return true;
-                }
             }
         });
 
@@ -112,36 +99,35 @@ public class PostActivity extends AppCompatActivity {
 
         photoFile = getPhotoFileUri(photoFileName);
 
-        Uri fileProvider = FileProvider.getUriForFile(PostActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getActivity(), "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-        if (intent.resolveActivity(getPackageManager()) != null) {
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
 
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
+            if (resultCode == getActivity().RESULT_OK) {
                 Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
 
                 //TODO: RESIZE Bitmap (only if necessary for memory issues)
 
                 //Load taken image into preview
-                ImageView ivPreview = (ImageView) findViewById(R.id.ivPostImage);
-                ivPreview.setImageBitmap(takenImage);
+                ivPostImage.setImageBitmap(takenImage);
             } else {
-                Toast.makeText(this, "Photo wasn't taken.", Toast.LENGTH_SHORT).show();
+                //TODO: some kind of error handling
             }
 
         }
     }
 
     private File getPhotoFileUri(String fileName) {
-        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
+        File mediaStorageDir = new File(getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
 
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
             Log.e(TAG, "failed to create photo directory");
@@ -164,7 +150,7 @@ public class PostActivity extends AppCompatActivity {
                     ivPostImage.setImageResource(0);
                 } else {
                     Log.e(TAG, "Error saving post", e);
-                    Toast.makeText(PostActivity.this, "Post saved.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Post saved.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
