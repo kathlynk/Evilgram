@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lenlobo.evilgram.R;
+import com.lenlobo.evilgram.fragments.FeedFragment;
+import com.lenlobo.evilgram.fragments.PostFragment;
 
 public class MainActivity extends AppCompatActivity {
 
