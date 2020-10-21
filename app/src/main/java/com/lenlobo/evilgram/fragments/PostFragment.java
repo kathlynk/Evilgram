@@ -24,27 +24,26 @@ import android.widget.Toast;
 
 import com.lenlobo.evilgram.R;
 import com.lenlobo.evilgram.models.Post;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.util.List;
 
 public class PostFragment extends Fragment {
 
     public static final String TAG = "PostActivity";
     public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 42;
     private EditText etDescription;
-    private Button bCaptureImage;
+    private Button bCapturePost;
     private ImageView ivPostImage;
     private Button bPost;
     private File photoFile;
     private String photoFileName = "photo.jpg";
     private ProgressBar progBarPost;
+    View.OnClickListener captureListener;
+    View.OnClickListener postListener;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,26 +57,20 @@ public class PostFragment extends Fragment {
 
 
         etDescription = view.findViewById(R.id.etDescription);
-        bCaptureImage = view.findViewById(R.id.bCaptureImage);
+        bCapturePost = view.findViewById(R.id.bCapturePost);
         ivPostImage = view.findViewById(R.id.ivPostImage);
-        bPost = view.findViewById(R.id.bPost);
         progBarPost = view.findViewById(R.id.progBarPost);
         progBarPost.setVisibility(View.INVISIBLE);
-        bPost.setVisibility(View.GONE);
-        bCaptureImage.setVisibility(View.VISIBLE);
         etDescription.setVisibility(View.GONE);
 
-        //click listener for take photo button
-        bCaptureImage.setOnClickListener(new View.OnClickListener() {
-
+        captureListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchCamera();
             }
-        });
+        };
 
-        //click listener for post button
-        bPost.setOnClickListener(new View.OnClickListener() {
+        postListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String description = etDescription.getText().toString();
@@ -90,12 +83,11 @@ public class PostFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
-
-
                 savePost(description, currentUser, photoFile);
-
             }
-        });
+        };
+
+        bCapturePost.setOnClickListener(captureListener);
 
     }
 
@@ -124,8 +116,8 @@ public class PostFragment extends Fragment {
 
                 //Load taken image into preview
                 ivPostImage.setImageBitmap(takenImage);
-                bCaptureImage.setVisibility(View.GONE);
-                bPost.setVisibility(View.VISIBLE);
+                bCapturePost.setText("Post");
+                bCapturePost.setOnClickListener(postListener);
                 etDescription.setVisibility(View.VISIBLE);
             } else {
                 //TODO: some kind of error handling
@@ -157,7 +149,10 @@ public class PostFragment extends Fragment {
                     Log.i(TAG, "Post saved");
                     progBarPost.setVisibility(View.INVISIBLE);
                     etDescription.setText("");
+                    etDescription.setVisibility(View.GONE);
                     ivPostImage.setImageResource(0);
+                    bCapturePost.setText("Take Photo");
+                    bCapturePost.setOnClickListener(captureListener);
                     Toast.makeText(getActivity(), "Post complete", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Error saving post", e);

@@ -49,7 +49,6 @@ public class FeedFragment extends Fragment {
         rvFeed.setAdapter(feedAdapter);
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         query.orderByDescending("createdAt");
         query.include(Post.KEY_USER);
         rvFeed.setVisibility(View.INVISIBLE);

@@ -11,6 +11,7 @@
         android:id="@+id/etDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:ems="10"
         android:hint="Description..."
         android:inputType="textPersonName"
@@ -18,7 +19,8 @@
         android:textColorHint="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPostImage" />
+        app:layout_constraintTop_toBottomOf="@+id/ivPostImage"
+        app:layout_constraintWidth_percent=".5" />
 
     <ImageView
         android:id="@+id/ivPostImage"
@@ -26,30 +28,25 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.296"
         tools:srcCompat="@tools:sample/avatars" />
 
     <Button
-        android:id="@+id/bCaptureImage"
+        android:id="@+id/bCapturePost"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Take Picture"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias=".5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/bPost"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Post"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bCaptureImage" />
+        app:layout_constraintWidth_percent=".5" />
 
     <ProgressBar
         android:id="@+id/progBarPost"
