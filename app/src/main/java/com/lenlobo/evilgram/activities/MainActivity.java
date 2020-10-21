@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lenlobo.evilgram.R;
 import com.lenlobo.evilgram.fragments.FeedFragment;
 import com.lenlobo.evilgram.fragments.PostFragment;
+import com.lenlobo.evilgram.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Fragment feedFragment = new FeedFragment();
         final Fragment postFragment = new PostFragment();
+        final Fragment settingsFragment = new SettingsFragment();
 
         fragmentManager.beginTransaction()
                 .add(R.id.main_content, feedFragment)
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = postFragment;
                         break;
                     case R.id.action_settings:
-                        fragment = postFragment;
+                        fragment = settingsFragment;
                         break;
                     default:
                         fragment = feedFragment;

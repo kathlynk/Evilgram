@@ -23,6 +23,7 @@ public class Post extends ParseObject {
 
     public String username;
     public String description;
+    public Bitmap image;
 
     public Post() {}
 

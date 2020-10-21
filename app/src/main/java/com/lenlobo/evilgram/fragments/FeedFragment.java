@@ -57,9 +57,19 @@ public class FeedFragment extends Fragment {
                 if (e == null) {
                     posts.clear();
                     for (Post post: parsePosts) {
-                        Post newPost = new Post();
+                        final Post newPost = new Post();
                         newPost.username = post.getUser().getUsername();
                         newPost.description = post.getDescription();
+                        ParseFile imageFile = post.getImage();
+                        imageFile.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                if (e == null) {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                    newPost.image = bitmap;
+                                }
+                            }
+                        });
                         posts.add(newPost);
                     }
                 } else {

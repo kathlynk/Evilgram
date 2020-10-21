@@ -54,7 +54,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         final Post post = posts.get(position);
         holder.tvUsername.setText(posts.get(position).username);
         holder.tvDescription.setText(posts.get(position).description);
-//        holder.ivPhoto.setSomehow...;
+        holder.ivPhoto.setImageBitmap(posts.get(position).image);
     }
 
     @Override
@@ -65,14 +65,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername;
         public TextView tvDescription;
-//        public ImageView ivPhoto;
+        public ImageView ivPhoto;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
-//            ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
+            ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
 
 
         }
