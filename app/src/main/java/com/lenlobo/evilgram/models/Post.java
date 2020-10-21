@@ -1,10 +1,18 @@
 package com.lenlobo.evilgram.models;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+
 import com.lenlobo.evilgram.R;
+import com.parse.FindCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.util.List;
 
 @ParseClassName("Post")
 public class Post extends ParseObject {
@@ -12,6 +20,11 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_USER = "user";
     public static final String KEY_IMAGE = "image";
+
+    public String username;
+    public String description;
+
+    public Post() {}
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -36,5 +49,4 @@ public class Post extends ParseObject {
     public void setImage(ParseFile image) {
         put(KEY_IMAGE, image);
     }
-
 }

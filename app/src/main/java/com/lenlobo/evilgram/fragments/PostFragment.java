@@ -85,6 +85,7 @@ public class PostFragment extends Fragment {
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 savePost(description, currentUser, photoFile);
+
             }
         });
 
@@ -147,24 +148,6 @@ public class PostFragment extends Fragment {
                 } else {
                     Log.e(TAG, "Error saving post", e);
                     Toast.makeText(getActivity(), "Post saved.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private void queryPosts() {
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.include(Post.KEY_USER);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if (e == null) {
-                    for(Post post: posts) {
-                        Log.i(TAG, "Post: " + post.getDescription() + ", username: " + post.getUser().getUsername());
-                    }
-
-                } else {
-                    Log.e(TAG, "Error getting posts", e);
                 }
             }
         });
