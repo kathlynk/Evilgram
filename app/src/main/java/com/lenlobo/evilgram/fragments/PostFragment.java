@@ -63,6 +63,9 @@ public class PostFragment extends Fragment {
         bPost = view.findViewById(R.id.bPost);
         progBarPost = view.findViewById(R.id.progBarPost);
         progBarPost.setVisibility(View.INVISIBLE);
+        bPost.setVisibility(View.GONE);
+        bCaptureImage.setVisibility(View.VISIBLE);
+        etDescription.setVisibility(View.GONE);
 
         //click listener for take photo button
         bCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +124,9 @@ public class PostFragment extends Fragment {
 
                 //Load taken image into preview
                 ivPostImage.setImageBitmap(takenImage);
+                bCaptureImage.setVisibility(View.GONE);
+                bPost.setVisibility(View.VISIBLE);
+                etDescription.setVisibility(View.VISIBLE);
             } else {
                 //TODO: some kind of error handling
             }

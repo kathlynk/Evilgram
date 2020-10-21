@@ -23,6 +23,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,8 @@ public class FeedFragment extends Fragment {
         rvFeed.setAdapter(feedAdapter);
 
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
+        query.orderByDescending("createdAt");
         query.include(Post.KEY_USER);
         rvFeed.setVisibility(View.INVISIBLE);
         prgoBarFeed.setVisibility(View.VISIBLE);

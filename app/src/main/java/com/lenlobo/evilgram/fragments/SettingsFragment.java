@@ -50,7 +50,7 @@ public class SettingsFragment extends Fragment {
 
     }
     private void logout() {
-        ParseUser.getCurrentUser().logOut();
+        ParseUser.logOut();
         Intent i = new Intent(getActivity(), LoginActivity.class);
         startActivity(i);
         getActivity().finish();
