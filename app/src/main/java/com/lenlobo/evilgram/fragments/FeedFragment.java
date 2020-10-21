@@ -67,7 +67,10 @@ public class FeedFragment extends Fragment {
                                 if (e == null) {
                                     Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                                     newPost.image = bitmap;
+                                } else {
+                                    Log.e(TAG, "Error loading bitmap", e);
                                 }
+                                feedAdapter.notifyDataSetChanged();
                             }
                         });
                         posts.add(newPost);

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.lenlobo.evilgram.R;
@@ -43,6 +44,7 @@ public class PostFragment extends Fragment {
     private Button bPost;
     private File photoFile;
     private String photoFileName = "photo.jpg";
+    private ProgressBar progBarPost;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,7 +61,8 @@ public class PostFragment extends Fragment {
         bCaptureImage = view.findViewById(R.id.bCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         bPost = view.findViewById(R.id.bPost);
-
+        progBarPost = view.findViewById(R.id.progBarPost);
+        progBarPost.setVisibility(View.INVISIBLE);
 
         //click listener for take photo button
         bCaptureImage.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +87,8 @@ public class PostFragment extends Fragment {
                     return;
                 }
                 ParseUser currentUser = ParseUser.getCurrentUser();
+
+
                 savePost(description, currentUser, photoFile);
 
             }
@@ -138,13 +143,16 @@ public class PostFragment extends Fragment {
         post.setUser(currentUser);
         post.setDescription(description);
         post.setImage(new ParseFile(photoFile));
+        progBarPost.setVisibility(View.VISIBLE);
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e == null) {
                     Log.i(TAG, "Post saved");
+                    progBarPost.setVisibility(View.INVISIBLE);
                     etDescription.setText("");
                     ivPostImage.setImageResource(0);
+                    Toast.makeText(getActivity(), "Post complete", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Error saving post", e);
                     Toast.makeText(getActivity(), "Post saved.", Toast.LENGTH_SHORT).show();
