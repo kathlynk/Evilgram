@@ -27,11 +27,18 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+### Signup, Login, Logout, User Persistence
+<img src="walkthroughs/Evilgram_walkthrough1.gif" width=250><br>
+
+### Photo Capture, Caption, Post
+<img src="walkthroughs/Evilgram_walkthrough2.gif" width=500><br>
+
 
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Right now, only photos taken in landscape mode are supported.  
+Will need to build a custom camera activity to get functionality I want.
 
 ## Open-source libraries used
 
