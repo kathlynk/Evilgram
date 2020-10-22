@@ -10,7 +10,7 @@
 
     </style>
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">54sp</item>
         <item name="android:fontFamily">@font/billabong</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
