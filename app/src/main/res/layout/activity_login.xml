@@ -62,7 +62,7 @@
     <Button
         android:id="@+id/bLogin"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginTop="12dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="Log In"
@@ -76,7 +76,7 @@
     <Button
         android:id="@+id/bSignup"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Sign Up"
         android:textColor="@android:color/white"
