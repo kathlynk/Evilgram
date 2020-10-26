@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.lenlobo.evilgram.EndlessRecyclerViewScrollListener;
 import com.lenlobo.evilgram.R;
 import com.lenlobo.evilgram.adapters.FeedAdapter;
 import com.lenlobo.evilgram.models.Post;
@@ -37,6 +38,8 @@ public class FeedFragment extends Fragment {
     private ProgressBar progBarFeed;
     private SwipeRefreshLayout swipeContainer;
     private FeedAdapter adapter;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private final int DISPLAY_LIMIT = 20;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,7 +61,8 @@ public class FeedFragment extends Fragment {
         adapter = new FeedAdapter(getContext());
 
         rvFeed.setAdapter(adapter);
-        rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        rvFeed.setLayoutManager(linearLayoutManager);
         queryPosts();
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -68,13 +72,22 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadNextDataFromParse(totalItemsCount);
+            }
+        };
+
+        rvFeed.addOnScrollListener(scrollListener);
+
 
     }
 
     private void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
-        query.setLimit(20);
+        query.setLimit(DISPLAY_LIMIT);
         query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Post>() {
             @Override
@@ -96,7 +109,7 @@ public class FeedFragment extends Fragment {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.orderByDescending("createdAt");
-        query.setLimit(20);
+        query.setLimit(DISPLAY_LIMIT);
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> parsePosts, ParseException e) {
@@ -105,6 +118,25 @@ public class FeedFragment extends Fragment {
                     adapter.addAll(parsePosts);
                     swipeContainer.setRefreshing(false);
 
+                } else {
+                    Log.e(TAG, "Error getting posts", e);
+                }
+
+            }
+        });
+    }
+
+    public void loadNextDataFromParse(int offset) {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.orderByDescending("createdAt");
+        query.setLimit(DISPLAY_LIMIT);
+        query.setSkip(offset);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> parsePosts, ParseException e) {
+                if (e == null) {
+                    adapter.addAll(parsePosts);
                 } else {
                     Log.e(TAG, "Error getting posts", e);
                 }
