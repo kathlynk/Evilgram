@@ -77,4 +77,17 @@
         app:layout_constraintStart_toEndOf="@+id/bHeart"
         app:layout_constraintTop_toBottomOf="@+id/ivPhoto" />
 
+    <TextView
+        android:id="@+id/tvCreatedAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.905"
+        app:layout_constraintStart_toEndOf="@+id/tvUsername"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="5m" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

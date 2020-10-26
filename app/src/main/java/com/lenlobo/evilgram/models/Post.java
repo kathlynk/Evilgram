@@ -12,6 +12,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.Date;
 import java.util.List;
 
 @ParseClassName("Post")
@@ -20,6 +21,7 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_USER = "user";
     public static final String KEY_IMAGE = "image";
+    public static final String KEY_CREATED_AT = "createdAt";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -44,5 +46,7 @@ public class Post extends ParseObject {
     public void setImage(ParseFile image) {
         put(KEY_IMAGE, image);
     }
+
+    public Date getDate() { return getDate(KEY_CREATED_AT); }
 
 }
