@@ -21,12 +21,6 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_IMAGE = "image";
 
-    public String username;
-    public String description;
-    public Bitmap image;
-
-    public Post() {}
-
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
     }

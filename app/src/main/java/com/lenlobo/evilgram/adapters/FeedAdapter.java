@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.lenlobo.evilgram.R;
 import com.lenlobo.evilgram.models.Post;
 import com.parse.FindCallback;
@@ -29,9 +30,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     public static final String TAG = "FeedAdapter";
 
-    List<Post> posts;
+    private Context context;
+    private List<Post> posts;
 
-    public FeedAdapter(List<Post> posts) {
+    public FeedAdapter(Context context, List<Post> posts) {
+        this.context = context;
         this.posts = posts;
     }
 
@@ -39,22 +42,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View postView = inflater.inflate(R.layout.feed_item, parent, false);
-
-        ViewHolder viewHolder = new ViewHolder(postView);
-        return viewHolder;
+        View view = LayoutInflater.from(context).inflate(R.layout.feed_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        final Post post = posts.get(position);
-        holder.tvUsername.setText(posts.get(position).username);
-        holder.tvDescription.setText(posts.get(position).description);
-        holder.ivPhoto.setImageBitmap(posts.get(position).image);
+        Post post = posts.get(position);
+        holder.bind(post);
     }
 
     @Override
@@ -62,7 +57,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return posts.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvUsername;
         public TextView tvDescription;
         public ImageView ivPhoto;
@@ -74,6 +69,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
 
+        }
+
+        public void bind(Post post) {
+            tvDescription.setText(post.getDescription());
+            tvUsername.setText(post.getUser().getUsername());
+            if (post.getImage() != null) {
+                Glide.with(context).load(post.getImage().getUrl()).into(ivPhoto);
+            }
 
         }
     }

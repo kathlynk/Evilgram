@@ -32,69 +32,54 @@ import java.util.List;
 public class FeedFragment extends Fragment {
     public static final String TAG = "FeedFragment";
 
-    List<Post> posts = new ArrayList<>();
+    RecyclerView rvFeed;
+    ProgressBar progBarFeed;
+    private FeedAdapter adapter;
+    private List<Post> allPosts;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        // get reference to recycler view
-        final RecyclerView rvFeed = (RecyclerView) rootView.findViewById(R.id.rvFeed);
-        final ProgressBar prgoBarFeed = (ProgressBar) rootView.findViewById(R.id.progBarFeed);
-
-        rvFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        final FeedAdapter feedAdapter = new FeedAdapter(posts);
-        rvFeed.setAdapter(feedAdapter);
-
-        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
-        query.orderByDescending("createdAt");
-        query.include(Post.KEY_USER);
-        query.setLimit(20);
-        rvFeed.setVisibility(View.INVISIBLE);
-        prgoBarFeed.setVisibility(View.VISIBLE);
-        query.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> parsePosts, ParseException e) {
-                if (e == null) {
-                    posts.clear();
-                    for (Post post: parsePosts) {
-                        final Post newPost = new Post();
-                        newPost.username = post.getUser().getUsername();
-                        newPost.description = post.getDescription();
-                        ParseFile imageFile = post.getImage();
-                        imageFile.getDataInBackground(new GetDataCallback() {
-                            @Override
-                            public void done(byte[] data, ParseException e) {
-                                if (e == null) {
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                    newPost.image = bitmap;
-                                } else {
-                                    Log.e(TAG, "Error loading bitmap", e);
-                                }
-                                feedAdapter.notifyDataSetChanged();
-                            }
-                        });
-                        posts.add(newPost);
-                    }
-                } else {
-                    Log.e(TAG, "Error getting posts", e);
-                }
-                prgoBarFeed.setVisibility(View.INVISIBLE);
-                rvFeed.setVisibility(View.VISIBLE);
-                feedAdapter.notifyDataSetChanged();
-            }
-        });
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_feed, container, false);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        rvFeed = view.findViewById(R.id.rvFeed);
 
+        progBarFeed = view.findViewById(R.id.progBarFeed);
+        progBarFeed.setVisibility(View.VISIBLE);
+        allPosts = new ArrayList<>();
+        adapter = new FeedAdapter(getContext(), allPosts);
+
+        rvFeed.setAdapter(adapter);
+        rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
+        queryPosts();
+
+
+    }
+
+    private void queryPosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> parsePosts, ParseException e) {
+                if (e == null) {
+                    allPosts.addAll(parsePosts);
+                    adapter.notifyDataSetChanged();
+                    progBarFeed.setVisibility(View.INVISIBLE);
+
+                } else {
+                    Log.e(TAG, "Error getting posts", e);
+                }
+
+            }
+        });
     }
 }
