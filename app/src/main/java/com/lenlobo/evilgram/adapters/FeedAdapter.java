@@ -23,6 +23,8 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public TextView tvUsername;
         public TextView tvDescription;
         public ImageView ivPhoto;
+        public TextView tvCreatedAt;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,12 +71,20 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
+            tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
 
         }
 
         public void bind(Post post) {
+            
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
+
+            //format createdAt time using PrettyTime
+            PrettyTime pTime = new PrettyTime();
+            tvCreatedAt.setText(pTime.format(post.getCreatedAt()));
+
+            //load image with Glide
             if (post.getImage() != null) {
                 Glide.with(context).load(post.getImage().getUrl()).into(ivPhoto);
             }
