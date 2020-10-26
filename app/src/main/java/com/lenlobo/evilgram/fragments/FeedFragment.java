@@ -52,6 +52,7 @@ public class FeedFragment extends Fragment {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.orderByDescending("createdAt");
         query.include(Post.KEY_USER);
+        query.setLimit(20);
         rvFeed.setVisibility(View.INVISIBLE);
         prgoBarFeed.setVisibility(View.VISIBLE);
         query.findInBackground(new FindCallback<Post>() {
