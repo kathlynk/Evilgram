@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,10 +33,10 @@ import java.util.List;
 public class FeedFragment extends Fragment {
     public static final String TAG = "FeedFragment";
 
-    RecyclerView rvFeed;
-    ProgressBar progBarFeed;
+    private RecyclerView rvFeed;
+    private ProgressBar progBarFeed;
+    private SwipeRefreshLayout swipeContainer;
     private FeedAdapter adapter;
-    private List<Post> allPosts;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -50,15 +51,22 @@ public class FeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         rvFeed = view.findViewById(R.id.rvFeed);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
 
         progBarFeed = view.findViewById(R.id.progBarFeed);
         progBarFeed.setVisibility(View.VISIBLE);
-        allPosts = new ArrayList<>();
-        adapter = new FeedAdapter(getContext(), allPosts);
+        adapter = new FeedAdapter(getContext());
 
         rvFeed.setAdapter(adapter);
         rvFeed.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshPosts();
+            }
+        });
 
 
     }
@@ -67,13 +75,35 @@ public class FeedFragment extends Fragment {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(20);
+        query.orderByDescending("createdAt");
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> parsePosts, ParseException e) {
                 if (e == null) {
-                    allPosts.addAll(parsePosts);
-                    adapter.notifyDataSetChanged();
+                    adapter.clear();
+                    adapter.addAll(parsePosts);
                     progBarFeed.setVisibility(View.INVISIBLE);
+
+                } else {
+                    Log.e(TAG, "Error getting posts", e);
+                }
+
+            }
+        });
+    }
+
+    private void refreshPosts() {
+        ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
+        query.include(Post.KEY_USER);
+        query.orderByDescending("createdAt");
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<Post>() {
+            @Override
+            public void done(List<Post> parsePosts, ParseException e) {
+                if (e == null) {
+                    adapter.clear();
+                    adapter.addAll(parsePosts);
+                    swipeContainer.setRefreshing(false);
 
                 } else {
                     Log.e(TAG, "Error getting posts", e);

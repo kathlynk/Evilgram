@@ -33,9 +33,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private Context context;
     private List<Post> posts;
 
-    public FeedAdapter(Context context, List<Post> posts) {
+    public FeedAdapter(Context context) {
         this.context = context;
-        this.posts = posts;
+        this.posts = new ArrayList<>();
     }
 
 
@@ -77,8 +77,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             if (post.getImage() != null) {
                 Glide.with(context).load(post.getImage().getUrl()).into(ivPhoto);
             }
-
         }
+    }
+
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Post> newPosts) {
+        posts.addAll(newPosts);
+        notifyDataSetChanged();
     }
 
 

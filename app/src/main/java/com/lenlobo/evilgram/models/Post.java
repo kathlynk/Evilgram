@@ -44,4 +44,5 @@ public class Post extends ParseObject {
     public void setImage(ParseFile image) {
         put(KEY_IMAGE, image);
     }
+
 }
