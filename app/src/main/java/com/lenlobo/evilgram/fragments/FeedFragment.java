@@ -63,8 +63,11 @@ public class FeedFragment extends Fragment {
         rvFeed.setAdapter(adapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvFeed.setLayoutManager(linearLayoutManager);
+
+        // gets initial list of posts
         queryPosts();
 
+        // listener for swipe to refresh
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -72,6 +75,7 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        //scroll listener for infinite scroll
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
@@ -84,6 +88,7 @@ public class FeedFragment extends Fragment {
 
     }
 
+    // queries Parse for initial post list display
     private void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
@@ -105,6 +110,7 @@ public class FeedFragment extends Fragment {
         });
     }
 
+    // refreshes post list for pull to refresh
     private void refreshPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
@@ -126,6 +132,7 @@ public class FeedFragment extends Fragment {
         });
     }
 
+    // adds additional Parse Posts to the adapter list for infinite scroll
     public void loadNextDataFromParse(int offset) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
