@@ -1,6 +1,7 @@
 package com.lenlobo.evilgram.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -11,10 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintAttribute;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.lenlobo.evilgram.R;
+import com.lenlobo.evilgram.activities.DetailActivity;
 import com.lenlobo.evilgram.models.Post;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -34,6 +38,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private Context context;
     private List<Post> posts;
+    private ConstraintLayout itemContainer;
 
     public FeedAdapter(Context context) {
         this.context = context;
@@ -72,6 +77,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
+            itemContainer = (ConstraintLayout) itemView.findViewById(R.id.itemContainer);
 
         }
 
@@ -88,6 +94,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             if (post.getImage() != null) {
                 Glide.with(context).load(post.getImage().getUrl()).into(ivPhoto);
             }
+
+            itemContainer.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, DetailActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

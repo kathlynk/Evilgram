@@ -2,12 +2,14 @@ package com.lenlobo.evilgram.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.widget.ProgressBar;
 
 import com.lenlobo.evilgram.EndlessRecyclerViewScrollListener;
 import com.lenlobo.evilgram.R;
+import com.lenlobo.evilgram.activities.DetailActivity;
 import com.lenlobo.evilgram.adapters.FeedAdapter;
 import com.lenlobo.evilgram.models.Post;
 import com.parse.FindCallback;
@@ -84,7 +87,6 @@ public class FeedFragment extends Fragment {
         };
 
         rvFeed.addOnScrollListener(scrollListener);
-
 
     }
 
