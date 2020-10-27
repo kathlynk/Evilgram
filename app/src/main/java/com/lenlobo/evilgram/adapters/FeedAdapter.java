@@ -81,7 +81,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         }
 
-        public void bind(Post post) {
+        public void bind(final Post post) {
             
             tvDescription.setText(post.getDescription());
             tvUsername.setText(post.getUser().getUsername());
@@ -100,6 +100,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
+                    intent.putExtra("username", post.getUser().getUsername());
+                    intent.putExtra("description", post.getDescription());
+                    intent.putExtra("imageUrl", post.getImage().getUrl());
+                    PrettyTime pTimeExtra = new PrettyTime();
+                    intent.putExtra("createdAt", pTimeExtra.format(post.getCreatedAt()));
                     context.startActivity(intent);
                 }
             });
