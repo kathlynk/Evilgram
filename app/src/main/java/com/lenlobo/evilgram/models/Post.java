@@ -24,6 +24,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_PROFILE_IMAGE = "profilePhoto";
+    public static final String KEY_LIKES = "likes";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -50,5 +51,9 @@ public class Post extends ParseObject {
     }
 
     public ParseFile getProfilePhoto() { return this.getUser().getParseFile("profilePhoto");}
+
+    public int getLikes() { return getInt(KEY_LIKES); }
+
+    public void setLikes(int count) { put(KEY_LIKES, count);}
 
 }

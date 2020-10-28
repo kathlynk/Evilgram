@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintAttribute;
@@ -72,6 +73,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public ImageView ivPhoto;
         public TextView tvCreatedAt;
         public ImageView ivProfilePhoto;
+        public ToggleButton bHeart;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +84,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
             ivProfilePhoto = (ImageView) itemView.findViewById(R.id.ivProfilePhoto);
             itemContainer = (ConstraintLayout) itemView.findViewById(R.id.itemContainer);
+            bHeart = (ToggleButton) itemView.findViewById(R.id.bHeart);
 
         }
 
@@ -94,14 +97,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             PrettyTime pTime = new PrettyTime();
             tvCreatedAt.setText(pTime.format(post.getCreatedAt()));
 
+            // get profile photo file from Parse
             ParseFile photo = post.getProfilePhoto();
 
+            // load profile photo into view with glide
             if(post.getUser().get("profilePhoto") != null) {
 
                 Glide.with(context).load(photo.getUrl()).circleCrop().into(ivProfilePhoto);
             }
 
-            //load image with Glide
+            //load main image with Glide
             if (post.getImage() != null) {
                 Glide.with(context).load(post.getImage().getUrl()).into(ivPhoto);
             }
@@ -119,6 +124,28 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     context.startActivity(intent);
                 }
             });
+
+            bHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (bHeart.isChecked()) {
+                        try {
+                            incrementLikes(post);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            decrementLikes(post);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            });
+
+
         }
     }
 
@@ -132,5 +159,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void incrementLikes(Post post) throws ParseException {
+        int count = post.getLikes();
+        count++;
+        post.setLikes(count);
+        post.save();
+    }
 
+    public void decrementLikes(Post post) throws ParseException {
+        int count = post.getLikes();
+        count--;
+        post.setLikes(count);
+        post.save();
+    }
 }
