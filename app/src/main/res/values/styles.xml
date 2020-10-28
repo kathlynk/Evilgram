@@ -7,7 +7,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
     </style>
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">54sp</item>

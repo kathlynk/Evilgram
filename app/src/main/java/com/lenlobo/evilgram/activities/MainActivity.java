@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,6 +19,7 @@ import com.lenlobo.evilgram.R;
 import com.lenlobo.evilgram.fragments.FeedFragment;
 import com.lenlobo.evilgram.fragments.PostFragment;
 import com.lenlobo.evilgram.fragments.SettingsFragment;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,5 +67,33 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                logout();
+                return true;
+            case R.id.upload:
+                return true;
+            default:
+                return true;
+
+        }
+    }
+
+    private void logout() {
+        ParseUser.logOut();
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
     }
 }
