@@ -158,14 +158,16 @@ public class MainActivity extends AppCompatActivity {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(MainActivity.this, "Profile Photo Uploaded", Toast.LENGTH_SHORT).show();
+                        //TODO: This is hacky...maybe launch the profile page
+                        finish();
+                        startActivity(getIntent());
                     } else {
                         Toast.makeText(MainActivity.this, "Error Uploading Profile Photo", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+
     }
-
-
 
 }

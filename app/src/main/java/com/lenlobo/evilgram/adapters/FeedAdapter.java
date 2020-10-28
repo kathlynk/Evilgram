@@ -25,7 +25,9 @@ import com.parse.GetDataCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -69,6 +71,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         public TextView tvDescription;
         public ImageView ivPhoto;
         public TextView tvCreatedAt;
+        public ImageView ivProfilePhoto;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +80,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             ivPhoto = (ImageView) itemView.findViewById(R.id.ivPhoto);
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tvCreatedAt);
+            ivProfilePhoto = (ImageView) itemView.findViewById(R.id.ivProfilePhoto);
             itemContainer = (ConstraintLayout) itemView.findViewById(R.id.itemContainer);
 
         }
@@ -89,6 +93,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             //format createdAt time using PrettyTime
             PrettyTime pTime = new PrettyTime();
             tvCreatedAt.setText(pTime.format(post.getCreatedAt()));
+
+            ParseFile photo = post.getProfilePhoto();
+
+            if(post.getUser().get("profilePhoto") != null) {
+
+                Glide.with(context).load(photo.getUrl()).circleCrop().into(ivProfilePhoto);
+            }
 
             //load image with Glide
             if (post.getImage() != null) {
