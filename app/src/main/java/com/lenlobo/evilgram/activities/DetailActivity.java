@@ -36,6 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         description = getIntent().getStringExtra("description");
         imageUrl = getIntent().getStringExtra("imageUrl");
 
+
         tvUsername = findViewById(R.id.tvUsername);
         tvCreatedAt = findViewById(R.id.tvCreatedAt);
         tvDescription = findViewById(R.id.tvDescription);
@@ -46,5 +47,6 @@ public class DetailActivity extends AppCompatActivity {
         tvDescription.setText(description);
 
         Glide.with(this).load(imageUrl).into(ivPhoto);
+
     }
 }

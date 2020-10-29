@@ -121,6 +121,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                     intent.putExtra("imageUrl", post.getImage().getUrl());
                     PrettyTime pTimeExtra = new PrettyTime();
                     intent.putExtra("createdAt", pTimeExtra.format(post.getCreatedAt()));
+                    intent.putExtra("profilePhoto", post.getProfilePhoto());
                     context.startActivity(intent);
                 }
             });

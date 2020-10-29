@@ -37,12 +37,12 @@ import java.util.List;
 public class FeedFragment extends Fragment {
     public static final String TAG = "FeedFragment";
 
-    private RecyclerView rvFeed;
-    private ProgressBar progBarFeed;
-    private SwipeRefreshLayout swipeContainer;
-    private FeedAdapter adapter;
-    private EndlessRecyclerViewScrollListener scrollListener;
-    private final int DISPLAY_LIMIT = 20;
+    protected RecyclerView rvFeed;
+    protected ProgressBar progBarFeed;
+    protected SwipeRefreshLayout swipeContainer;
+    protected FeedAdapter adapter;
+    protected EndlessRecyclerViewScrollListener scrollListener;
+    protected final int DISPLAY_LIMIT = 20;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -91,7 +91,7 @@ public class FeedFragment extends Fragment {
     }
 
     // queries Parse for initial post list display
-    private void queryPosts() {
+    protected void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.setLimit(DISPLAY_LIMIT);
@@ -113,7 +113,7 @@ public class FeedFragment extends Fragment {
     }
 
     // refreshes post list for pull to refresh
-    private void refreshPosts() {
+    protected void refreshPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.orderByDescending("createdAt");
@@ -135,7 +135,7 @@ public class FeedFragment extends Fragment {
     }
 
     // adds additional Parse Posts to the adapter list for infinite scroll
-    public void loadNextDataFromParse(int offset) {
+    protected void loadNextDataFromParse(int offset) {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_USER);
         query.orderByDescending("createdAt");

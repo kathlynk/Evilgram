@@ -5,28 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lenlobo.evilgram.R;
 import com.lenlobo.evilgram.fragments.FeedFragment;
 import com.lenlobo.evilgram.fragments.PostFragment;
-import com.lenlobo.evilgram.fragments.SettingsFragment;
+import com.lenlobo.evilgram.fragments.ProfileFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -52,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Fragment feedFragment = new FeedFragment();
         final Fragment postFragment = new PostFragment();
-        final Fragment settingsFragment = new SettingsFragment();
+        final Fragment profileFragment = new ProfileFragment();
 
         fragmentManager.beginTransaction()
                 .add(R.id.main_content, feedFragment)
@@ -72,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = postFragment;
                         break;
                     case R.id.action_settings:
-                        fragment = settingsFragment;
+                        fragment = profileFragment;
                         break;
                     default:
                         fragment = feedFragment;
