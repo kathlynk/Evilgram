@@ -19,10 +19,9 @@ The following **optional** features are implemented:
 - [x] User can load more posts once he or she reaches the bottom of the feed using infinite scrolling.
 - [x] Show the username and creation time for each post.
 - [x] User can tap a post to view post details, including timestamp and caption.
-- [x] User Profiles
-      - [x] Allow the logged in user to add a profile photo
-      - [x] Display the profile photo with each post
-      - [ ] Tapping on a post's username or profile photo goes to that user's profile page and shows a grid view of the user's posts 
+- [x] Allow the logged in user to add a profile photo
+- [x] Display the profile photo with each post
+- [ ] Tapping on a post's username or profile photo goes to that user's profile page and shows a grid view of the user's posts 
 - [ ] User can comment on a post and see all comments for each post in the post details screen.
 - [ ] User can like a post and see number of likes for each post in the post details screen.
 
@@ -31,10 +30,10 @@ The following **optional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 ### Feed, Fragments, Bottom Navigation
-<img src="walkthroughs/walkthrough_Evilgram_profileFragments.gif" width=250><br>
+<img src="walkthroughs/walkthough_Evilgram_profilefragments.gif" width=250><br>
 
 ### Infinite Scroll
-<img src="walkthroughs/walkthrough_Evilgram_infiniteScroll.gif" width=250><br>
+<img src="walkthroughs/walkthough_Evilgram_infiniteScroll.gif" width=250><br>
 
 ### Uploading/Displaying Profile Photo
 <img src="walkthroughs/walkthrough_Evilgram_profilePhoto.gif" width=250><br>
@@ -43,7 +42,7 @@ Here's a walkthrough of implemented user stories:
 <img src="walkthroughs/walkthrough_Evilgram_pulltorefresh.gif" width=250><br>
 
 ### Detail View
-<img src="walkthroughs/walkthrough_Evilgram_detailView.gif" width=250><br>
+<img src="walkthroughs/walkthough_Evilgram_detailView.gif" width=250><br>
 
 
 
