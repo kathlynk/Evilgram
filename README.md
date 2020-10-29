@@ -30,7 +30,7 @@ The following **optional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 ### Feed, Fragments, Bottom Navigation
-<img src="walkthroughs/walkthough_Evilgram_profilefragments.gif" width=250><br>
+<img src="walkthroughs/walkthrough_Evilgram_fragNavProfile.gif" width=250><br>
 
 ### Infinite Scroll
 <img src="walkthroughs/walkthough_Evilgram_infiniteScroll.gif" width=250><br>
