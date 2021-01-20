@@ -2,7 +2,7 @@
 
 **Evilgram** is a photo sharing app similar to Instagram but using Parse as its backend.  The only thing evil about it is its color theme.
 
-## User Stories 
+## User Stories / Functional Requirements
 - User can sign up to create a new account using Parse authentication.
 - User can log in and log out of his or her account.
 - The current signed in user is persisted across app restarts.
