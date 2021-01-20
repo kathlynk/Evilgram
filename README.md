@@ -17,10 +17,10 @@
 - User can tap a post to view post details, including timestamp and caption.
 - Allow the logged in user to add a profile photo
 - Display the profile photo with each post
-- [x] User sees app icon in home screen and styled bottom navigation view
-- [x] Style the feed to look like the real Instagram feed. (Except for color theme!  This is intentional)
-- [x] After the user submits a new post, show an indeterminate progress bar while the post is being uploaded to Parse.
-- [x] Instagram theme changed to something decidely more evil :)
+- User sees app icon in home screen and styled bottom navigation view
+- Style the feed to look like the real Instagram feed. (Except for color theme!  This is intentional)
+- After the user submits a new post, show an indeterminate progress bar while the post is being uploaded to Parse.
+- Instagram theme changed to something decidely more evil :)
 
 
 TODO:
